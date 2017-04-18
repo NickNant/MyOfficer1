@@ -5,10 +5,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,14 +23,13 @@ import java.io.File;
 public class SignUpActivity extends AppCompatActivity {
 
     //Explicit
-    private EditText nameEditText,userEditText,passwordEditText;
+    private EditText nameEditText, userEditText, passwordEditText;
     private ImageView imageView;
     private Button button;
-    private String nameString,userString,passwordString, pathImageString,nameImageString ;
+    private String nameString, userString, passwordString, pathImageString, nameImageString;
     private Uri uri;
     private String tag = "masterUNG";
     private boolean aBoolean = true;
-
 
 
     @Override
@@ -39,10 +38,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up2);
         //Bind Wiget
         nameEditText = (EditText) findViewById(R.id.editText3);
-        userEditText= (EditText) findViewById(R.id.editText4);
-        passwordEditText= (EditText) findViewById(R.id.editText5);
-        imageView= (ImageView) findViewById(R.id.imageView2);
-        button= (Button) findViewById(R.id.button3);
+        userEditText = (EditText) findViewById(R.id.editText4);
+        passwordEditText = (EditText) findViewById(R.id.editText5);
+        imageView = (ImageView) findViewById(R.id.imageView2);
+        button = (Button) findViewById(R.id.button3);
 
         //Get Event From Click
         button.setOnClickListener(new View.OnClickListener() {
@@ -51,25 +50,23 @@ public class SignUpActivity extends AppCompatActivity {
                 //Get value from Edit text
                 nameString = nameEditText.getText().toString().trim();
                 userString = userEditText.getText().toString().trim();
-                passwordString= passwordEditText.getText().toString().trim();
+                passwordString = passwordEditText.getText().toString().trim();
 
                 //Check Space
-                if (nameString.equals("")|| userString.equals("") || passwordString.equals("")) {
+                if (nameString.equals("") || userString.equals("") || passwordString.equals("")) {
 
                     // Have Space
                     MyAlert myAlert = new MyAlert(SignUpActivity.this, "Have Space", "Please Fill All Blank");
                     myAlert.myDialog();
-                }else if (aBoolean){
+                } else if (aBoolean) {
                     //Non Choose Image
                     MyAlert myAlert = new MyAlert(SignUpActivity.this, "ยังไม่ได้เลือกรูปภาพ", "โปรดเลือกรูปภาพ");
                     myAlert.myDialog();
-                }else {
+                } else {
                     //Image OK
                     upLoadImage();
 
                 }
-
-
 
 
             } //onclick
@@ -82,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent, "Please choose Apps"),1);
+                startActivityForResult(Intent.createChooser(intent, "Please choose Apps"), 1);
 
             } // onClick Image
         });
@@ -107,7 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
             simpleFTP.disconnect();
 
             Toast.makeText(SignUpActivity.this, "Upload Finish", Toast.LENGTH_SHORT).show();
-            
+            finish();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,15 +141,16 @@ public class SignUpActivity extends AppCompatActivity {
         String[] strings = new String[]{MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(uri, strings, null, null, null);
 
-         if (cursor != null) {
+        if (cursor != null) {
 
-             cursor.moveToFirst();
-             int i = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-             result = uri.getPath();
+            cursor.moveToFirst();
+            int i = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//             result = uri.getPath();
+            result = cursor.getString(i);
+
         } else {
-             result = uri.getPath();
+            result = uri.getPath();
         }
-
 
 
         return result;
