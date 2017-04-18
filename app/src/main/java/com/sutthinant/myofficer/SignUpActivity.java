@@ -107,6 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
             simpleFTP.disconnect();
 
             Toast.makeText(SignUpActivity.this, "Upload Finish", Toast.LENGTH_SHORT).show();
+            finish();
             
 
         } catch (Exception e) {
@@ -147,7 +148,9 @@ public class SignUpActivity extends AppCompatActivity {
 
              cursor.moveToFirst();
              int i = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-             result = uri.getPath();
+//             result = uri.getPath();
+             result = cursor.getString(i);
+
         } else {
              result = uri.getPath();
         }
